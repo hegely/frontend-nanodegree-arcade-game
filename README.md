@@ -12,7 +12,7 @@ This game was created for the Udacity Front End Developer Nanodegree. It is a cl
 
 ## How to Run
 
-Download the package from my <a target="_blank" href="https://github.com/hegely/frontend-nanodegree-arcade-game">github repository</a>. Open index.html in the browser and play the game.
+Download the package from my <a target="_blank" href="https://github.com/hegely/frontend-nanodegree-arcade-game/archive/master.zip">github repository</a>. Open index.html in the browser and play the game.
 
 ## How to Play
 

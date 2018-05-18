@@ -1,79 +1,76 @@
-// Enemies our player must avoid
-let Enemy = function(x, y, spd) {
-    // letiables applied to each of our instances go here,
-    // we've provided one for you to get started
-	this.x = x;
-	this.y = y;
-	this.spd = spd;
+"use strict;"
+let score = 0;
 
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
-	this.detZone = 10;
-};
-
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same spd for
-    // all computers.
-	let locEnemies = [60, 140, 220];
-	this.x = this.x + (this.spd * dt);
-	if (this.x > 505) {
-		this.x = 0;
-		this.y = locEnemies[Math.floor((Math.random()) * 3)];
-		this.spd = Math.floor(Math.random() * 200) + 100;
+//Definie global game object
+class gameObj {
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+		this.detZone = 25; //updated to 25
 	}
 	
-	//Collision detection
-	let detX = this.x - player.x;
-	let detY = player.y - this.y;
-	let distance = Math.sqrt(detX * detX + detY * detY);
-
-	if (distance < this.detZone + player.detZone) {
-		player.y = 400;
-		player.x = 200;
-		//alert('colision');
-	  }
-};
-
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-let Player = function(x, y) {
-  this.x = x;
-  this.y = y;
-  this.img = 'images/char-boy.png';
-  this.detZone = 10;
+	render() {
+		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+	};
 }
 
-Player.prototype.update = function() {
-  if (this.y == -25) {
-    this.y = 400;
-  }
+//Definie enemy as subclass of game object
+class Enemy extends gameObj {
+	constructor(x, y, spd) {
+		super(x, y);
+		this.spd = spd;
+		this.sprite = 'images/enemy-bug.png';
+	}
+	
+	update(dt) {
+		let locEnemies = [60, 140, 220];
+		this.x = this.x + (this.spd * dt);
+		if (this.x > 505) {
+			this.x = 0;
+			this.y = locEnemies[Math.floor((Math.random()) * 3)];
+			this.spd = Math.floor(Math.random() * 200) + 100;
+		}
+
+		//Collision detection
+		let detX = this.x - player.x;
+		let detY = player.y - this.y;
+		let distance = Math.sqrt(detX * detX + detY * detY);
+
+		if (distance < this.detZone + player.detZone) {
+			player.y = 400;
+			player.x = 200;
+			//alert('colision');
+		  }
+	};
+}
+
+//Definie player as subclass of game object
+class Player extends gameObj {
+	constructor(x, y) {
+		super(x, y);
+		this.sprite = 'images/char-boy.png';
+	};
+	
+	update() {
+		if (this.y == -25) {
+			this.y = 400;
+			score++;
+			alert("You WON! With the total score of: " + score + "!");
+		}
+	};
+	
+	handleInput(key) {
+		if (key == 'left' && this.x > 0) {
+			this.x = this.x - 100;
+		} else if (key == 'up' && this.y > 0) {
+			this.y = this.y - 85;
+		} else if (key == 'right' && this.x < 400) {
+			this.x = this.x + 100;
+		} else if (key == 'down' && this.y < 400) {
+			this.y = this.y + 85;
+		};
+	};
 };
-
-Player.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.img), this.x, this.y);
-}
-
-Player.prototype.handleInput = function(key) {
-  if (key == 'left' && this.x > 0) {
-    this.x = this.x - 100;
-  } else if (key == 'up' && this.y > 0) {
-    this.y = this.y - 85;
-  } else if (key == 'right' && this.x < 400) {
-    this.x = this.x + 100;
-  } else if (key == 'down' && this.y < 400) {
-    this.y = this.y + 85;
-  }
-}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -82,7 +79,7 @@ let allEnemies = [];
 let locEnemies = [60, 140, 220];
 
 locEnemies.forEach((loc) => {
-  enemy = new Enemy(0, loc, Math.floor((Math.random()) * 200) + 100);
+  let enemy = new Enemy(0, loc, Math.floor((Math.random()) * 200) + 100);
   allEnemies.push(enemy);
 });
 

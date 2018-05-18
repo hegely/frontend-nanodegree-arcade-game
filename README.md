@@ -16,4 +16,4 @@ Download the package from my <a target="_blank" href="https://github.com/hegely/
 
 ## How to Play
 
-Players starts at bottom of the screen and should reach the top of the sceen without collision with enemies (bugs). Use the up, down, left, right controls to move your character.
+Players starts at bottom of the screen and should reach the top of the sceen without collision with enemies (bugs). Use the up, down, left, right controls to move your character. Each time player reach the top of the screen successfully, one point to the total score is counted.
